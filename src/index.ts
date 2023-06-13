@@ -2,21 +2,21 @@ import type {fetch as workerFetch, Request, Response, ExecutionContext, Fetcher}
 
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-export type FetchnStorage = Map<string, any>
+export type WetchStorage = Map<string, any>
 
-export class FetchnFactory {
-    constructor(private als: AsyncLocalStorage<FetchnStorage>) {
+export class WetchFactory {
+    constructor(private als: AsyncLocalStorage<WetchStorage>) {
     }
 
     static create() {
-        return new FetchnFactory(new AsyncLocalStorage<FetchnStorage>())
+        return new WetchFactory(new AsyncLocalStorage<WetchStorage>())
     }
 
     // static global() {
-    //     globalThis._fetchnFactory = new FetchnFactory(new AsyncLocalStorage<FetchnStorage>())
+    //     globalThis._wetchFactory = new WetchFactory(new AsyncLocalStorage<WetchStorage>())
     // }
 
-    fetchn(fetcher?: Fetcher): typeof workerFetch {
+    wetch(fetcher?: Fetcher): typeof workerFetch {
         return async (info, init) => {
             const store = this.als.getStore()
             // if not running
@@ -37,7 +37,7 @@ export class FetchnFactory {
 }
 
 
-export function taste(factory: FetchnFactory) {
+export function taste(factory: WetchFactory) {
     return function <E>(fn: (request: Request, env: E, context: ExecutionContext) => Promise<Response>) {
         return async (request: Request, env: E, context: ExecutionContext) => {
             let response: Response | null = null
@@ -52,4 +52,4 @@ export function taste(factory: FetchnFactory) {
     }
 }
 
-export default FetchnFactory
+export default WetchFactory

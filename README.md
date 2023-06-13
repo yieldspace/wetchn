@@ -1,5 +1,5 @@
-# fetchn
-fetchn - Fetchication is a library that provides AsyncLocalStorage based cache for Cloudflare Workers.
+# wetchn
+wetchn - Worker-Fetchication is a library that provides AsyncLocalStorage based cache for Cloudflare Workers.
 
 ⚠️This library is work in progress, and don't work as expected or not improved.
 
@@ -53,12 +53,12 @@ See [Example](#example).
 This is proposal. issue is welcome.
 
 ```typescript
-import {FetchnFactory} from "fetchn"
+import {WetchFactory} from "wetch"
 
-const factory = FetchnFactory.create()
-const factory2 = FetchnFactory.create()
-const fetchn = factory.fetchn()
-const fetchn2 = factory2.fetchn()
+const factory = WetchFactory.create()
+const factory2 = WetchFactory.create()
+const wetch = factory.wetch()
+const wetch2 = factory2.wetch()
 
 const cachedFn = factory.cachen(async () => {
     return crypto.randomUUID()
@@ -66,12 +66,12 @@ const cachedFn = factory.cachen(async () => {
 
 export default {
     fetch: taste(factory)(async (req) => {
-        const resp = await fetchn("https://example.com")
-        const resp2 = await fetchn("https://example.com") // same as resp
+        const resp = await wetch("https://example.com")
+        const resp2 = await wetch("https://example.com") // same as resp
 
         await factory2.run(async () => {
-            const resp3 = await fetchn2("https://example.com") // not same as resp, resp2
-            const resp4 = await fetchn2("https://example.com") // same as resp3
+            const resp3 = await wetch2("https://example.com") // not same as resp, resp2
+            const resp4 = await wetch2("https://example.com") // same as resp3
         })
         
         const uid1 = cachedFn()

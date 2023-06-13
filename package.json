@@ -1,7 +1,7 @@
 {
-  "name": "fetchn",
-  "version": "0.0.1",
-  "description": "Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
+  "name": "wetchn",
+  "version": "0.0.2",
+  "description": "Worker-Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yieldspace/fetchn"
+    "url": "git+https://github.com/yieldspace/wetchn"
   },
   "keywords": [
     "fetch",
@@ -40,6 +40,7 @@
     "build:esbuild": "node build.js"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@cloudflare/workers-types": "^4.20230518.0",
     "@types/node": "^20.3.1",
     "esbuild": "^0.17.19",
