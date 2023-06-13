@@ -16,7 +16,7 @@ await build({
     format: 'esm',
     jsx: "automatic",
     outfile: './dist/index.mjs',
-    platform: "browser",
+    platform: "node",
     target: "es2022",
     tsconfig: "tsconfig.json"
 })
@@ -25,6 +25,7 @@ await build({
     ...shared,
     format: 'cjs',
     outfile: './dist/index.cjs.js',
+    platform: "node",
     target: "es2022",
     tsconfig: "tsconfig.json"
 })

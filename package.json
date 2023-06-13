@@ -1,5 +1,6 @@
 {
   "name": "fetchn",
+  "version": "0.0.1",
   "description": "Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
   "license": "MIT",
   "type": "module",
@@ -35,11 +36,12 @@
   "author": "sizumita <contact@yieldspace.app>",
   "scripts": {
     "build": "rimraf dist && run-p build:esbuild build:types",
-    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
+    "build:types": "tsc -p tsconfig.build.json",
     "build:esbuild": "node build.js"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230518.0",
+    "@types/node": "^20.3.1",
     "esbuild": "^0.17.19",
     "glob": "^10.2.7",
     "npm-run-all": "^4.1.5",

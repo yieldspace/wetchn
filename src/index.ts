@@ -1,8 +1,55 @@
-import type {fetch as workerFetch} from "@cloudflare/workers-types"
-export type Fetchn = typeof workerFetch & {}
+import type {fetch as workerFetch, Request, Response, ExecutionContext, Fetcher} from "@cloudflare/workers-types"
 
-const fetchn: Fetchn = async () => {
-    return new Response("ok")
+import { AsyncLocalStorage } from 'node:async_hooks';
+
+export type FetchnStorage = Map<string, any>
+
+export class FetchnFactory {
+    constructor(private als: AsyncLocalStorage<FetchnStorage>) {
+    }
+
+    static create() {
+        return new FetchnFactory(new AsyncLocalStorage<FetchnStorage>())
+    }
+
+    // static global() {
+    //     globalThis._fetchnFactory = new FetchnFactory(new AsyncLocalStorage<FetchnStorage>())
+    // }
+
+    fetchn(fetcher?: Fetcher): typeof workerFetch {
+        return async (info, init) => {
+            const store = this.als.getStore()
+            // if not running
+            if (typeof store === "undefined") {
+                return await (fetch as typeof workerFetch)(info, init)
+            }
+            // TODO get data and store data
+            return await ((fetcher ?? fetch) as typeof workerFetch)(info, init)
+        }
+    }
+    async run(fn: () => Promise<void>) {
+        this.als.run(new Map(), () => {
+            fn().catch(err => {
+                throw err
+            })
+        })
+    }
 }
 
-export default fetchn
+
+export function taste(factory: FetchnFactory) {
+    return function <E>(fn: (request: Request, env: E, context: ExecutionContext) => Promise<Response>) {
+        return async (request: Request, env: E, context: ExecutionContext) => {
+            let response: Response | null = null
+            await factory.run(async () => {
+                response = await fn(request, env, context)
+            })
+            if (response === null) {
+                throw new Error("Taste Failed")
+            }
+            return response as Response
+        }
+    }
+}
+
+export default FetchnFactory
