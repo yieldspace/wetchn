@@ -1,0 +1,51 @@
+{
+  "name": "fetchn",
+  "description": "Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yieldspace/fetchn"
+  },
+  "keywords": [
+    "fetch",
+    "typescript",
+    "cloudflare",
+    "cloudflare workers",
+    "http",
+    "edge",
+    "serverless"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "sizumita <contact@yieldspace.app>",
+  "scripts": {
+    "build": "rimraf dist && run-p build:esbuild build:types",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
+    "build:esbuild": "node build.js"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230518.0",
+    "esbuild": "^0.17.19",
+    "glob": "^10.2.7",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.1.3"
+  },
+  "packageManager": "yarn@3.6.0"
+}
