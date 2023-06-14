@@ -37,7 +37,7 @@ export class WetchFactory {
 }
 
 
-export function taste(factory: WetchFactory) {
+export function etch(factory: WetchFactory) {
     return function <E>(fn: (request: Request, env: E, context: ExecutionContext) => Promise<Response>) {
         return async (request: Request, env: E, context: ExecutionContext) => {
             let response: Response | null = null
