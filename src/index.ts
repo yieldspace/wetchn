@@ -1,6 +1,7 @@
-import type {fetch as workerFetch, Request, Response, ExecutionContext, Fetcher} from "@cloudflare/workers-types"
+import type {fetch as workerFetch, Fetcher} from "@cloudflare/workers-types"
 
 import { AsyncLocalStorage } from 'node:async_hooks';
+export {etch} from "./etch"
 
 export type WetchnStorage = Map<string, any>
 
@@ -19,7 +20,7 @@ export class WetchnFactory {
     wetch(fetcher?: Fetcher): typeof workerFetch {
         return async (info, init) => {
             const store = this.als.getStore()
-            // if not running
+            // if not factory running
             if (typeof store === "undefined") {
                 return await (fetch as typeof workerFetch)(info, init)
             }
@@ -28,28 +29,17 @@ export class WetchnFactory {
         }
     }
 
-    async run(fn: () => Promise<void>) {
-        this.als.run(new Map(), () => {
-            fn().catch(err => {
-                throw err
+    async etch(fn: () => Promise<void>) {
+        const promise: Promise<void> = new Promise((resolve, reject) => {
+            this.als.run(new Map(), () => {
+                fn().then(() => {
+                    resolve()
+                }).catch(err => {
+                    reject(err)
+                })
             })
         })
-    }
-}
-
-
-export function etch(factory: WetchnFactory) {
-    return function <E>(fn: (request: Request, env: E, context: ExecutionContext) => Promise<Response>) {
-        return async (request: Request, env: E, context: ExecutionContext) => {
-            let response: Response | null = null
-            await factory.run(async () => {
-                response = await fn(request, env, context)
-            })
-            if (response === null) {
-                throw new Error("Etch Failed")
-            }
-            return response as Response
-        }
+        await promise
     }
 }
 

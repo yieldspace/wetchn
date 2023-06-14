@@ -7,7 +7,7 @@
     "module": "es2022" /* Specify what module code is generated. */,
 //    "rootDir": "./",                                  /* Specify the root folder within your source files. */
     "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
-    "types": ["node", "@cloudflare/workers-types"] /* Specify type package names to be included without being referenced in a source file. */,
+    "types": ["node", "@cloudflare/workers-types", "vitest-environment-miniflare/globals"] /* Specify type package names to be included without being referenced in a source file. */,
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     "resolveJsonModule": true /* Enable importing .json files */,
     // "noResolve": true,                                /* Disallow `import`s, `require`s or `<reference>`s from expanding the number of files TypeScript should add to a project. */
