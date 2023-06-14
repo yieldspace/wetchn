@@ -1,6 +1,6 @@
 {
   "name": "wetchn",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Worker-Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
   "license": "MIT",
   "type": "module",
@@ -37,7 +37,8 @@
   "scripts": {
     "build": "rimraf dist && run-p build:esbuild build:types",
     "build:types": "tsc -p tsconfig.build.json",
-    "build:esbuild": "node build.js"
+    "build:esbuild": "node build.js",
+    "release": "build && changeset version && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
