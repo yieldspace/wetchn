@@ -23,7 +23,7 @@ export class WetchnFactory {
             const store = this.als.getStore()
             // if not factory running
             if (typeof store === "undefined") {
-                return await f(info, init)
+                throw new Error("Factory is not running")
             }
             // TODO get data and store data
             return await f(info, init)

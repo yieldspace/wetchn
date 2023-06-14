@@ -4,7 +4,6 @@ import {WetchnFactory} from "./index"
 
 const mockFetcher: Fetcher = {
     async fetch(): Promise<Response> {
-        console.log('fetching')
         return new Response(JSON.stringify({
             uuid: crypto.randomUUID()
         }), {
