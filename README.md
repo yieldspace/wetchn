@@ -53,19 +53,19 @@ See [Example](#example).
 This is proposal. issue is welcome.
 
 ```typescript
-import {WetchFactory, etch} from "wetch"
+import {WetchnnFactory, etch} from "wetch"
 
-const factory = WetchFactory.create()
-const factory2 = WetchFactory.create()
+const factory = WetchnnFactory.create()
+const factory2 = WetchnnFactory.create()
 const wetch = factory.wetch()
 const wetch2 = factory2.wetch()
 
-const cachedFn = factory.cache(async () => {
+const cachedFn = factory.wache(async () => {
     return crypto.randomUUID()
 })
 
-export default {
-    fetch: etch(factory)(async (req) => {
+export default etch(factory)({
+    async fetch(req) {
         const resp = await wetch("https://example.com")
         const resp2 = await wetch("https://example.com") // same as resp
 
@@ -78,6 +78,6 @@ export default {
         const uid2 = cachedFn() // same as uid1
 
         return new Response("abc")
-    })
-}
+    }
+})
 ```

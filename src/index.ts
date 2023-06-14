@@ -2,18 +2,18 @@ import type {fetch as workerFetch, Request, Response, ExecutionContext, Fetcher}
 
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-export type WetchStorage = Map<string, any>
+export type WetchnStorage = Map<string, any>
 
-export class WetchFactory {
-    constructor(private als: AsyncLocalStorage<WetchStorage>) {
+export class WetchnFactory {
+    constructor(private als: AsyncLocalStorage<WetchnStorage>) {
     }
 
     static create() {
-        return new WetchFactory(new AsyncLocalStorage<WetchStorage>())
+        return new WetchnFactory(new AsyncLocalStorage<WetchnStorage>())
     }
 
     // static global() {
-    //     globalThis._wetchFactory = new WetchFactory(new AsyncLocalStorage<WetchStorage>())
+    //     globalThis._wetchFactory = new WetchnFactory(new AsyncLocalStorage<WetchnStorage>())
     // }
 
     wetch(fetcher?: Fetcher): typeof workerFetch {
@@ -27,6 +27,7 @@ export class WetchFactory {
             return await ((fetcher ?? fetch) as typeof workerFetch)(info, init)
         }
     }
+
     async run(fn: () => Promise<void>) {
         this.als.run(new Map(), () => {
             fn().catch(err => {
@@ -37,7 +38,7 @@ export class WetchFactory {
 }
 
 
-export function etch(factory: WetchFactory) {
+export function etch(factory: WetchnFactory) {
     return function <E>(fn: (request: Request, env: E, context: ExecutionContext) => Promise<Response>) {
         return async (request: Request, env: E, context: ExecutionContext) => {
             let response: Response | null = null
@@ -45,11 +46,11 @@ export function etch(factory: WetchFactory) {
                 response = await fn(request, env, context)
             })
             if (response === null) {
-                throw new Error("Taste Failed")
+                throw new Error("Etch Failed")
             }
             return response as Response
         }
     }
 }
 
-export default WetchFactory
+export default WetchnFactory
