@@ -57,7 +57,7 @@ See [Example](#example).
 This is proposal. issue is welcome.
 
 ```typescript
-import {WetchnnFactory, etch} from "wetch"
+import {WetchnFactory, etch} from "wetchn"
 
 const factory = WetchnFactory.create()
 const factory2 = WetchnFactory.create()

@@ -1,9 +1,12 @@
 import type {fetch as workerFetch, Fetcher} from "@cloudflare/workers-types"
 
-import { AsyncLocalStorage } from 'node:async_hooks';
+import {AsyncLocalStorage} from 'node:async_hooks';
+import {makeKeyFromFetch} from "./store";
+import {StoredResponse} from "./response";
+
 export {etch} from "./etch"
 
-export type WetchnStorage = Map<string, any>
+export type WetchnStorage = Map<string, StoredResponse>
 
 export class WetchnFactory {
     constructor(private als: AsyncLocalStorage<WetchnStorage>) {
@@ -25,8 +28,20 @@ export class WetchnFactory {
             if (typeof store === "undefined") {
                 throw new Error("Factory is not running")
             }
-            // TODO get data and store data
-            return await f(info, init)
+            // no cache if request is not get or head
+            if (!["GET", "HEAD"].includes(init?.method?.toUpperCase() ?? "GET")) {
+                return await f(info, init)
+            }
+            const key = makeKeyFromFetch(info, init)
+            if (store.has(key)) {
+                return (store.get(key) as StoredResponse)
+            }
+
+            const response = await f(info, init)
+            const stored = new StoredResponse(response)
+            store.set(key, stored)
+
+            return stored
         }
     }
 
