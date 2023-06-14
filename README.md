@@ -32,7 +32,7 @@ See [Example](#example).
 
 # TODO
 
-- [ ] Fetch cache
+- [ ] Fetch remove duplicate
     - [ ] Perfectly designed 
     - [x] Function
     - [x] Base system by AsyncLocalStorage
@@ -47,6 +47,10 @@ See [Example](#example).
     - [ ] Write document
 - [ ] CI/CD
 - [ ] Document
+- [ ] Fetch cache and revalidate system
+  - [ ] use cache
+  - [ ] use kv
+
 
 # Example
 
