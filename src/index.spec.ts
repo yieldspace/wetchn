@@ -11,7 +11,7 @@ const getUuid = async () => {
 }
 
 test("basic wetch", async () => {
-    await factory.etch(async () => {
+    await factory.run(async () => {
         const uuid1 = await getUuid()
         const uuid2 = await getUuid()
         expect(uuid1).toBe(uuid2)

@@ -29,7 +29,7 @@ export class WetchnFactory {
         }
     }
 
-    async etch(fn: () => Promise<void>) {
+    async run(fn: () => Promise<void>) {
         const promise: Promise<void> = new Promise((resolve, reject) => {
             this.als.run(new Map(), () => {
                 fn().then(() => {
