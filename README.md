@@ -59,8 +59,8 @@ This is proposal. issue is welcome.
 ```typescript
 import {WetchnnFactory, etch} from "wetch"
 
-const factory = WetchnnFactory.create()
-const factory2 = WetchnnFactory.create()
+const factory = WetchnFactory.create()
+const factory2 = WetchnFactory.create()
 const wetch = factory.wetch()
 const wetch2 = factory2.wetch()
 
