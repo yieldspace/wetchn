@@ -18,14 +18,15 @@ export class WetchnFactory {
     // }
 
     wetch(fetcher?: Fetcher): typeof workerFetch {
+        const f = (!fetcher?.fetch ? fetch : fetcher.fetch) as typeof workerFetch
         return async (info, init) => {
             const store = this.als.getStore()
             // if not factory running
             if (typeof store === "undefined") {
-                return await (fetch as typeof workerFetch)(info, init)
+                return await f(info, init)
             }
             // TODO get data and store data
-            return await ((fetcher ?? fetch) as typeof workerFetch)(info, init)
+            return await f(info, init)
         }
     }
 

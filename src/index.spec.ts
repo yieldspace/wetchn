@@ -1,11 +1,28 @@
 import { expect, test } from "vitest";
+import type {Fetcher} from "@cloudflare/workers-types"
 import {WetchnFactory} from "./index"
 
+const mockFetcher: Fetcher = {
+    async fetch(): Promise<Response> {
+        console.log('fetching')
+        return new Response(JSON.stringify({
+            uuid: crypto.randomUUID()
+        }), {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    },
+    connect(): Socket {
+        throw new Error("")
+    }
+}
+
 const factory = WetchnFactory.create()
-const wetch = factory.wetch()
+const wetch = factory.wetch(mockFetcher)
 
 const getUuid = async () => {
-    const response = await wetch("https://httpbin.org/uuid")
+    const response = await wetch("https://mock-url/")
     const {uuid} = await response.json<{uuid: string}>()
     return uuid
 }
