@@ -56,6 +56,27 @@ See [Example](#example).
 
 This is proposal. issue is welcome.
 
+## Global
+
+```typescript
+import wetch, {WetchnFactory, etch} from "wetchn"
+
+WetchnFactory.global()
+
+type Env = {}
+
+export default etch<Env>()({
+    async fetch(req) {
+        const resp = await wetch("https://example.com")
+        const resp2 = await wetch("https://example.com") // same as resp
+
+        return resp
+    }
+})
+```
+
+## Scoped
+
 ```typescript
 import {WetchnFactory, etch} from "wetchn"
 
