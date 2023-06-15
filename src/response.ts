@@ -1,5 +1,3 @@
-import type {Response} from "@cloudflare/workers-types";
-
 export class StoredResponse implements Response {
     private original: Response
     constructor(response: Response) {

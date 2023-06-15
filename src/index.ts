@@ -1,14 +1,19 @@
-import type {fetch as workerFetch, Fetcher} from "@cloudflare/workers-types"
-
 import {AsyncLocalStorage} from 'node:async_hooks';
 import {makeKeyFromFetch} from "./store";
 import {StoredResponse} from "./response";
+import {Fetcher} from "@cloudflare/workers-types";
 
 export {etch} from "./etch"
 
 export type WetchnStorage = Map<string, StoredResponse>
 
+
+declare global {
+    var __GLOBAL_FACTORY__: WetchnFactory | undefined
+}
+
 export class WetchnFactory {
+    private fetcher?: Fetcher
     constructor(private als: AsyncLocalStorage<WetchnStorage>) {
     }
 
@@ -16,12 +21,16 @@ export class WetchnFactory {
         return new WetchnFactory(new AsyncLocalStorage<WetchnStorage>())
     }
 
-    // static global() {
-    //     globalThis._wetchFactory = new WetchnFactory(new AsyncLocalStorage<WetchnStorage>())
-    // }
+    static global() {
+        globalThis.__GLOBAL_FACTORY__ = new WetchnFactory(new AsyncLocalStorage<WetchnStorage>())
+    }
 
-    wetch(fetcher?: Fetcher): typeof workerFetch {
-        const f = (!fetcher?.fetch ? fetch : fetcher.fetch) as typeof workerFetch
+    setFetcher(fetcher: Fetcher) {
+        this.fetcher = fetcher
+    }
+
+    wetch(fetcher?: Fetcher): typeof fetch {
+        const f = (!fetcher?.fetch ? (!this.fetcher ? fetch : this.fetcher.fetch) : fetcher.fetch) as typeof fetch
         return async (info, init) => {
             const store = this.als.getStore()
             // if not factory running
@@ -45,7 +54,10 @@ export class WetchnFactory {
         }
     }
 
-    async run(fn: () => Promise<void>) {
+    async run(fn: () => Promise<void>, fetcher?: Fetcher) {
+        if (!!fetcher) {
+            this.setFetcher(fetcher)
+        }
         const promise: Promise<void> = new Promise((resolve, reject) => {
             this.als.run(new Map(), () => {
                 fn().then(() => {
@@ -57,6 +69,23 @@ export class WetchnFactory {
         })
         await promise
     }
+
+    static async runGlobal(fn: () => Promise<void>, fetcher?: Fetcher) {
+        if (typeof globalThis.__GLOBAL_FACTORY__ === "undefined") {
+            throw new Error("Global Factory is not initialized!")
+        }
+        if (!!fetcher) {
+            globalThis.__GLOBAL_FACTORY__.setFetcher(fetcher)
+        }
+        await globalThis.__GLOBAL_FACTORY__.run(fn)
+    }
 }
 
-export default WetchnFactory
+const wetch: typeof fetch = async (info, init) => {
+    if (typeof globalThis.__GLOBAL_FACTORY__ === "undefined") {
+        return await fetch(info, init)
+    }
+    return globalThis.__GLOBAL_FACTORY__.wetch()(info, init)
+}
+
+export default wetch

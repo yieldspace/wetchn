@@ -1,6 +1,3 @@
-/// <reference types="@cloudflare/workers-types" />
-import type {HeadersInit, RequestInfo, RequestInit} from "@cloudflare/workers-types"
-
 function resolveHeaders(init: HeadersInit) {
     if (Array.isArray(init)) {
         return Array.from((init as Iterable<Iterable<string>>)).map(x => {
@@ -22,14 +19,10 @@ function makeKeyFromRequest(request: Request): string {
 
 export function makeKeyFromFetch(info: RequestInfo, init?: RequestInit) {
     let key = `${init?.method?.toUpperCase() ?? "GET"}/`
-    if (typeof info === "string") {
-        key += `${info}/`
-    } else {
-        if (info instanceof Request) {
-            return makeKeyFromRequest(info)
-        }
-        key += `${info.toString()}/`
+    if (info instanceof Request) {
+        return makeKeyFromRequest(info)
     }
+    key += `${info.toString()}/`
     if (!init?.headers) {
         key += "/"
     } else {

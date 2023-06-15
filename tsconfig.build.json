@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "@cloudflare/workers-types"],
+    "types": ["node/async_hooks", "@cloudflare/workers-types"],
     "emitDeclarationOnly": true,
     "declaration": true,
     "outDir": "./dist",
