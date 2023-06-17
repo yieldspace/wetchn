@@ -1,5 +1,11 @@
 # wetch
 
+## 0.0.5
+
+### Patch Changes
+
+- 1d84bef: re-designed
+
 ## 0.0.4
 
 ### Patch Changes
