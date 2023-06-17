@@ -20,7 +20,6 @@
     "isolatedModules": true /* Ensure that each file can be safely transpiled without relying on other imports. */,
     "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
-
     /* Type Checking */
     "strict": true /* Enable all strict type-checking options. */,
     /* Completeness */

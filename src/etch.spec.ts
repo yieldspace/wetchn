@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import globalWetch, {WetchnFactory} from "./index"
+import {WetchnFactory} from "./index"
 import {etch} from "./etch"
 import {ExecutionContext, Fetcher} from "@cloudflare/workers-types";
 
@@ -29,23 +29,6 @@ test("test etch", async () => {
     const mockExportsFails = {
         async fetch() {
             return await wetch("https://mock-url/")
-        }
-    }
-    const resp = await mockExports.fetch!(new Request("https://dummy-url"), {}, mockExecutionContext)
-    expect(resp.ok).toBe(true)
-    expect(mockExportsFails.fetch()).rejects.toStrictEqual(new Error("Factory is not running"))
-})
-
-test("test global etch", async () => {
-    WetchnFactory.global()
-    const mockExports = etch<{}>(undefined, mockFetcher)({
-        async fetch() {
-            return await globalWetch("https://mock-url/")
-        }
-    })
-    const mockExportsFails = {
-        async fetch() {
-            return await globalWetch("https://mock-url/")
         }
     }
     const resp = await mockExports.fetch!(new Request("https://dummy-url"), {}, mockExecutionContext)

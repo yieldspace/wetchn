@@ -36,8 +36,8 @@ See [Example](#example).
     - [ ] Perfectly designed 
     - [x] Function
     - [x] Base system by AsyncLocalStorage
-    - [ ] Cache by name
-    - [ ] Load cache by name
+    - [x] Cache by name
+    - [x] Load cache by name
     - [ ] Write document
 - [ ] Function cache
     - [ ] Perfectly designed
@@ -56,49 +56,19 @@ See [Example](#example).
 
 This is proposal. issue is welcome.
 
-## Global
-
 ```typescript
-import wetch, {WetchnFactory, etch} from "wetchn"
+import {createWetchn, etch} from "wetchn"
 
-WetchnFactory.global()
+const {wetch, wache, etch} = createWetchn()
 
-type Env = {}
-
-export default etch<Env>()({
-    async fetch(req) {
-        const resp = await wetch("https://example.com")
-        const resp2 = await wetch("https://example.com") // same as resp
-
-        return resp
-    }
-})
-```
-
-## Scoped
-
-```typescript
-import {WetchnFactory, etch} from "wetchn"
-
-const factory = WetchnFactory.create()
-const factory2 = WetchnFactory.create()
-const wetch = factory.wetch()
-const wetch2 = factory2.wetch()
-
-const cachedFn = factory.wache(async () => {
+const cachedFn = wache(async () => {
     return crypto.randomUUID()
 })
 
-export default etch(factory)({
+export default etch({
     async fetch(req) {
         const resp = await wetch("https://example.com")
-        const resp2 = await wetch("https://example.com") // same as resp
-
-        await factory2.run(async () => {
-            const resp3 = await wetch2("https://example.com") // not same as resp, resp2
-            const resp4 = await wetch2("https://example.com") // same as resp3
-        })
-        
+        const resp2 = await wetch("https://example.com") // same as resp and no fetch call
         const uid1 = cachedFn()
         const uid2 = cachedFn() // same as uid1
 
