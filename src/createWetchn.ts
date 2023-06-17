@@ -15,5 +15,6 @@ export function createWetchn(config?: CreateWetchnConfig) {
         // wache: factory.wache(),
         run: factory.run,
         etch: etch(factory),
+        setFetcher: factory.setFetcher
     }
 }
