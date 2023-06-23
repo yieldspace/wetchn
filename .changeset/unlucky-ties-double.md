@@ -1,0 +1,5 @@
+---
+"wetchn": patch
+---
+
+Refactor signature
