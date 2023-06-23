@@ -41,9 +41,9 @@ See [Example](#example).
     - [ ] Write document
 - [ ] Function cache
     - [ ] Perfectly designed
-    - [ ] Function
+    - [x] Function
     - [x] Base system by AsyncLocalStorage
-    - [ ] Caching
+    - [x] Caching
     - [ ] Write document
 - [ ] CI/CD
 - [ ] Document
