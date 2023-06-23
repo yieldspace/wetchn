@@ -1,5 +1,11 @@
 # wetch
 
+## 0.0.6
+
+### Patch Changes
+
+- e7a46c3: Refactor signature
+
 ## 0.0.5
 
 ### Patch Changes
