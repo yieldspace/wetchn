@@ -1,4 +1,4 @@
-import type {WetchnFactory} from "./index";
+import type {WetchFactory} from "./index";
 
 export type EtchDefaultExports<Env> = {
     fetch?: (request: Request, env: Env, context: ExecutionContext) => Promise<Response>
@@ -6,7 +6,7 @@ export type EtchDefaultExports<Env> = {
     tail?: (event: TailEvent) => Promise<void>
 }
 
-export function etch<Env>(factory: WetchnFactory) {
+export function etch<Env>(factory: WetchFactory) {
     if (typeof factory === "undefined") {
         throw new Error("Global Factory is not initialized!")
     }

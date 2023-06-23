@@ -1,14 +1,14 @@
 import {AsyncLocalStorage} from "node:async_hooks";
-import {WetchnStorage} from "./storage";
-import {WetchnFactory} from "./factory";
+import {WetchFactory} from "./factory";
 import {etch} from "./etch";
+import type {WetchStorage} from "./storage";
 
 type CreateWetchnConfig = {
-    als?: AsyncLocalStorage<WetchnStorage>
+    als?: AsyncLocalStorage<WetchStorage>
 }
 
 export function createWetch(config?: CreateWetchnConfig) {
-    const factory = !config?.als ? WetchnFactory.create() : new WetchnFactory(config.als)
+    const factory = !config?.als ? WetchFactory.create() : new WetchFactory(config.als)
     return {
         factory,
         wetch: factory.wetch(),
