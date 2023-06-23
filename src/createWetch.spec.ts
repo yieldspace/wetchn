@@ -1,9 +1,9 @@
 import { expect, test } from "vitest";
-import {createWetchn} from "./index";
+import {createWetch} from "./index";
 import {mockFetcher, testGetUuid} from "./test_utils/mock";
 
-test("test basic createWetchn", async () => {
-    const {wetch, factory} = createWetchn()
+test("test basic createWetch", async () => {
+    const {wetch, factory} = createWetch()
 
     factory.setFetcher(mockFetcher)
     await factory.run(async () => {

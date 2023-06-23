@@ -1,4 +1,4 @@
-export * from "./createWetchn"
+export * from "./createWetch"
 export * from "./etch"
 export * from "./factory"
 export * from "./response"

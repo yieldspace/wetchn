@@ -4,6 +4,13 @@ import {makeKeyFromFetch} from "./store";
 import {StoredResponse} from "./response";
 import {WetchnStorage} from "./storage";
 
+type Fn<A extends any[], T> = (...args: A) => T
+
+type WacheConfig<T extends any = {}> = {
+    revalidate?: number
+    customId?: T
+}
+
 export class WetchnFactory {
     private fetcher?: Fetcher
     constructor(private als: AsyncLocalStorage<WetchnStorage>) {
@@ -16,6 +23,15 @@ export class WetchnFactory {
     setFetcher(fetcher: Fetcher) {
         this.fetcher = fetcher
         console.error(this.fetcher)
+    }
+
+    wache() {
+        return <A extends any[], T>(fn: (...args: A) => T, config?: WacheConfig): Fn<A, T> => {
+            // TODO
+            return (...args) => {
+                return fn.apply(null, args)
+            }
+        }
     }
 
     wetch(fetcher?: Fetcher): typeof fetch {
@@ -31,23 +47,24 @@ export class WetchnFactory {
                 return await f(info, init)
             }
             const key = makeKeyFromFetch(info, init)
-            if (store.has(key)) {
-                return (store.get(key) as StoredResponse)
+            if (store.hasResponse(key)) {
+                return (store.getResponse(key) as StoredResponse)
             }
 
             const response = await f(info, init)
             const stored = new StoredResponse(response)
-            store.set(key, stored)
+            store.storeResponse(key, stored)
 
             return stored
         }
     }
+
     async run(fn: () => Promise<void>, fetcher?: Fetcher) {
         if (!!fetcher) {
             this.setFetcher(fetcher)
         }
         const promise: Promise<void> = new Promise((resolve, reject) => {
-            this.als.run(new Map(), () => {
+            this.als.run(new WetchnStorage(), () => {
                 fn().then(() => {
                     resolve()
                 }).catch(err => {

@@ -57,11 +57,11 @@ See [Example](#example).
 This is proposal. issue is welcome.
 
 ```typescript
-import {createWetchn, etch} from "wetchn"
+import {createWetch} from "wetchn"
 
-const {wetch, wache, etch} = createWetchn()
+const {wetch, wache, etch} = createWetch()
 
-const cachedFn = wache(async () => {
+const cachedFn = wache(() => {
     return crypto.randomUUID()
 })
 

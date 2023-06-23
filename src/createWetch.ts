@@ -7,12 +7,12 @@ type CreateWetchnConfig = {
     als?: AsyncLocalStorage<WetchnStorage>
 }
 
-export function createWetchn(config?: CreateWetchnConfig) {
+export function createWetch(config?: CreateWetchnConfig) {
     const factory = !config?.als ? WetchnFactory.create() : new WetchnFactory(config.als)
     return {
         factory,
         wetch: factory.wetch(),
-        // wache: factory.wache(),
+        wache: factory.wache(),
         run: factory.run,
         etch: etch(factory),
         setFetcher: factory.setFetcher
