@@ -1,12 +1,13 @@
 type Fn<A extends any[], T> = (...args: A) => T
 
-export type WacheConfig<T extends any = {}> = {
+export type WacheConfig = {
     revalidate?: number
-    customId?: T
+    customId?: any
 }
 
-type Primitive = string | number | boolean | null | Symbol | void
-type Objective = Function | Object
+type Primitive = string | number | boolean | null | symbol | void
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Objective = Function | object
 
 enum LeafState {
     UnExecuted,
@@ -54,7 +55,7 @@ class FunctionCacheLeaf {
             throw this.error
         }
         try {
-            this.result = fn.apply(null, args)
+            this.result = fn(...args)
             this.state = LeafState.Executed
             return this.result
         } catch (e) {

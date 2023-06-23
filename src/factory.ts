@@ -28,7 +28,7 @@ export class WetchFactory {
                 const store = this.als.getStore()
                 // if not factory running, run without caching
                 if (typeof store === "undefined") {
-                    return fn.apply(null, args)
+                    return fn(...args)
                 }
                 const storage = store.getOrRegisterCacheStorage(fn, config)
 
@@ -47,7 +47,7 @@ export class WetchFactory {
     }
 
     async run(fn: () => Promise<void>, fetcher?: Fetcher) {
-        if (!!fetcher) {
+        if (fetcher) {
             this.setFetcher(fetcher)
         }
         const promise: Promise<void> = new Promise((resolve, reject) => {

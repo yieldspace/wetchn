@@ -21,7 +21,7 @@ const mockExecutionContext: ExecutionContext = {
 test("test etch", async () => {
     const factory = WetchFactory.create()
     const wetch = factory.wetch(mockFetcher)
-    const mockExports = etch<{}>(factory)({
+    const mockExports = etch(factory)({
         async fetch() {
             return await wetch("https://mock-url/")
         }
