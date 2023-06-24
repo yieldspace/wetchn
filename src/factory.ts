@@ -24,6 +24,9 @@ export class WetchFactory {
         this.fetcher = fetcher
     }
 
+    /**
+     * Create wache function.
+     */
     wache() {
         return <A extends any[], T>(fn: (...args: A) => T, config?: WacheConfig): Fn<A, T> => {
             return (...args) => {
@@ -41,6 +44,10 @@ export class WetchFactory {
         }
     }
 
+    /**
+     * Create wetch function. If fetcher is provided, it uses fetcher instead of global fetch.
+     * @param fetcher {Fetcher} - Fetcher if needed
+     */
     wetch(fetcher?: Fetcher): Wetch {
         return this.wache()(async (info, init) => {
             const f = (!fetcher?.fetch ? (!this.fetcher ? fetch : this.fetcher.fetch) : fetcher.fetch) as typeof fetch
@@ -48,10 +55,11 @@ export class WetchFactory {
         })
     }
 
-    async run(fn: () => Promise<void>, fetcher?: Fetcher) {
-        if (fetcher) {
-            this.setFetcher(fetcher)
-        }
+    /**
+     * Run this factory and run inputted function.
+     * @param fn {() => Promise<void>} - The function to run in the context
+     */
+    async run(fn: () => Promise<void>) {
         const promise: Promise<void> = new Promise((resolve, reject) => {
             this.als.run(new WetchStorage(), () => {
                 fn().then(() => {

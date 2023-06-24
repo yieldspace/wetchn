@@ -19,8 +19,8 @@ export function createWetch(config?: CreateWetchConfig) {
         factory,
         wetch,
         wache: factory.wache(),
-        run: (fn: () => Promise<void>, fetcher?: Fetcher) => {
-            return factory.run(fn, fetcher)
+        run: (fn: () => Promise<void>) => {
+            return factory.run(fn)
         },
         etch: etch(factory),
         setFetcher: factory.setFetcher,
