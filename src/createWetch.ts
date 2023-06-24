@@ -4,11 +4,15 @@ import {etch} from "./etch";
 import type {WetchStorage} from "./storage";
 import {Fetcher} from "@cloudflare/workers-types";
 
-type CreateWetchnConfig = {
+export type CreateWetchConfig = {
     als?: AsyncLocalStorage<WetchStorage>
 }
 
-export function createWetch(config?: CreateWetchnConfig) {
+/**
+ * create WetchFactory and utility functions.
+ * @param config {CreateWetchConfig} - The config of WetchFactory.
+ */
+export function createWetch(config?: CreateWetchConfig) {
     const factory = !config?.als ? WetchFactory.create() : new WetchFactory(config.als)
     return {
         factory,

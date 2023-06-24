@@ -13,6 +13,9 @@ export class WetchFactory {
     constructor(private als: AsyncLocalStorage<WetchStorage>) {
     }
 
+    /**
+     * Create New Factory with new AsyncLocalStorage.
+     */
     static create() {
         return new WetchFactory(new AsyncLocalStorage<WetchStorage>())
     }

@@ -6,6 +6,10 @@ export type EtchDefaultExports<Env> = {
     tail?: (event: TailEvent) => Promise<void>
 }
 
+/**
+ * A wrapper of worker's default export. It runs input factory before request.
+ * @param factory {WetchFactory} - The factory to run
+ */
 export function etch<Env>(factory: WetchFactory) {
     if (typeof factory === "undefined") {
         throw new Error("Global Factory is not initialized!")
