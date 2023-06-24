@@ -22,7 +22,6 @@ export class WetchFactory {
 
     setFetcher(fetcher: Fetcher) {
         this.fetcher = fetcher
-        console.error(this.fetcher)
     }
 
     wache() {

@@ -9,7 +9,8 @@
   "module": "dist/index.mjs",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
