@@ -14,14 +14,21 @@ export type CreateWetchConfig = {
  */
 export function createWetch(config?: CreateWetchConfig) {
     const factory = !config?.als ? WetchFactory.create() : new WetchFactory(config.als)
+    const wetch = factory.wetch()
     return {
         factory,
-        wetch: factory.wetch(),
+        wetch,
         wache: factory.wache(),
         run: (fn: () => Promise<void>, fetcher?: Fetcher) => {
             return factory.run(fn, fetcher)
         },
         etch: etch(factory),
-        setFetcher: factory.setFetcher
+        setFetcher: factory.setFetcher,
+        fetcher: {
+            fetch: wetch,
+            connect(): Socket {
+                throw new Error("UnImplemented")
+            }
+        } as Fetcher
     }
 }
