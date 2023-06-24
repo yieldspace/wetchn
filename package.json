@@ -1,6 +1,6 @@
 {
   "name": "wetchn",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Worker-Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
   "license": "MIT",
   "type": "module",

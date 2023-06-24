@@ -1,5 +1,15 @@
 # wetch
 
+## 0.1.0
+
+### Minor Changes
+
+- 3cec31e: Create basic signature and documents, beta stable
+
+### Patch Changes
+
+- dd24e39: Fix createWetch.run error
+
 ## 0.0.7
 
 ### Patch Changes
