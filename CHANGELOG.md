@@ -1,5 +1,11 @@
 # wetch
 
+## 0.1.1
+
+### Patch Changes
+
+- 29d6d7e: Add generics for Environment
+
 ## 0.1.0
 
 ### Minor Changes
