@@ -1,4 +1,5 @@
 import {build} from "esbuild";
+import fs from "fs/promises"
 import pkg from "./package.json" assert { type: "json" }
 
 const entryFile = 'src/index.ts'
@@ -9,23 +10,26 @@ const shared = {
     logLevel: 'info',
     minify: true,
     sourcemap: false,
+    platform: "node",
+    target: "es2022",
+    tsconfig: "tsconfig.json",
+    jsx: "automatic",
 }
 
 await build({
     ...shared,
     format: 'esm',
-    jsx: "automatic",
     outfile: './dist/index.mjs',
-    platform: "node",
-    target: "es2022",
-    tsconfig: "tsconfig.json"
 })
+
+const esm = await fs.readFile('./dist/index.mjs')
+await fs.writeFile("./dist/index.mjs", esm.toString().replaceAll("async_hooks", "node:async_hooks"))
 
 await build({
     ...shared,
     format: 'cjs',
     outfile: './dist/index.cjs.js',
-    platform: "node",
-    target: "es2022",
-    tsconfig: "tsconfig.json"
 })
+
+const cjs = await fs.readFile('./dist/index.cjs.js')
+await fs.writeFile("./dist/index.cjs.js", cjs.toString().replaceAll("async_hooks", "node:async_hooks"))
