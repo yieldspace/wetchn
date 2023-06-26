@@ -1,8 +1,9 @@
 import type {WetchFactory} from "./index";
+import {Env} from "./worker";
 
-export type EtchDefaultExports<Env> = {
-    fetch?: (request: Request, env: Env, context: ExecutionContext) => Promise<Response>
-    scheduled?: (event: ScheduledEvent, env: Env, context: ExecutionContext) => Promise<void>
+export type EtchDefaultExports<E extends Env = Env> = {
+    fetch?: (request: Request, env: E, context: ExecutionContext) => Response | Promise<Response>
+    scheduled?: (event: ScheduledEvent, env: E, context: ExecutionContext) => Promise<void>
     tail?: (event: TailEvent) => Promise<void>
 }
 
@@ -10,11 +11,11 @@ export type EtchDefaultExports<Env> = {
  * A wrapper of worker's default export. It runs input factory before request.
  * @param factory {WetchFactory} - The factory to run
  */
-export function etch<Env>(factory: WetchFactory) {
+export function etch<E extends Env = Env>(factory: WetchFactory) {
     if (typeof factory === "undefined") {
         throw new Error("Global Factory is not initialized!")
     }
-    return function etching(exports: EtchDefaultExports<Env>): EtchDefaultExports<Env> {
+    return function etching(exports: EtchDefaultExports<E>): EtchDefaultExports<E> {
         return {
             fetch: !exports.fetch ? undefined
                 : async (request, env, context) => {
