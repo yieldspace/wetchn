@@ -57,22 +57,26 @@ See [Example](#example).
 This is proposal. issue is welcome.
 
 ```typescript
-import {createWetch} from "wetchn"
+import {createWetch, createWache} from "wetchn"
+import {KvWetchService} from "wetchn/wetch"
+import AsyncLocalStorageWacheService from "wetchn/wache"
 
-const {wetch, wache, etch} = createWetch()
+const {wetch, etch} = createWetch(KvWetchService.create())
+const {wache} = createWache(AsyncLocalStorageWacheService.create())
 
 const cachedFn = wache(() => {
     return crypto.randomUUID()
 })
 
 export default etch({
-    async fetch(req) {
-        const resp = await wetch("https://example.com")
-        const resp2 = await wetch("https://example.com") // same as resp and no fetch call
-        const uid1 = cachedFn()
-        const uid2 = cachedFn() // same as uid1
+  async fetch(req) {
+    const resp = await wetch("https://example.com")
+    const resp2 = await wetch("https://example.com") // same as resp and no fetch call until calling revalidatePath
 
-        return new Response("abc")
-    }
+    const uid1 = cachedFn()
+    const uid2 = cachedFn() // same as uid1 per a request
+
+    return new Response("abc")
+  }
 })
 ```

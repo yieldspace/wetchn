@@ -14,19 +14,34 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs.js"
+      "import": {
+        "default": "./dist/index.mjs",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/index.cjs.js",
+        "types": "./dist/index.d.ts"
+      }
     },
     "./wache": {
-      "types": "./dist/wache/index.d.ts",
-      "import": "./dist/wache/index.mjs",
-      "require": "./dist/wache/index.cjs.js"
+      "import": {
+        "default": "./dist/wache/index.mjs",
+        "types": "./dist/wache/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/wache/index.cjs.js",
+        "types": "./dist/wache/index.d.ts"
+      }
     },
     "./wetch": {
-      "types": "./dist/wetch/index.d.ts",
-      "import": "./dist/wetch/index.mjs",
-      "require": "./dist/wetch/index.cjs.js"
+      "import": {
+        "default": "./dist/wetch/index.mjs",
+        "types": "./dist/wetch/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/wetch/index.cjs.js",
+        "types": "./dist/wetch/index.d.ts"
+      }
     }
   },
   "repository": {
