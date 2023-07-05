@@ -1,35 +1,49 @@
-import {AsyncLocalStorage} from "node:async_hooks";
-import {WetchFactory} from "./factory";
-import {etch} from "./etch";
-import type {WetchStorage} from "./storage";
-import {Fetcher} from "@cloudflare/workers-types";
-import type {Env} from "./worker";
+import type {Wache} from "./createWache";
+import {WetchCacheConfig, WetchService} from "./service";
+import {StoredResponse} from "./response";
+import {CFWetchService} from "./wetch";
+
+export type Wetch = (input: RequestInfo<unknown, CfProperties<unknown>>, init?: RequestInit<RequestInitCfProperties> & WetchCacheConfig) => Promise<Response>
+
+export type CreateWetch = {
+    wetch: Wetch
+    revalidateUrl: (url: string) => Promise<void>
+}
 
 export type CreateWetchConfig = {
-    als?: AsyncLocalStorage<WetchStorage>
+    wache?: Wache
+    service?: WetchService
 }
 
 /**
  * create WetchFactory and utility functions.
- * @param config {CreateWetchConfig} - The config of WetchFactory.
  */
-export function createWetch<E extends Env = Env>(config?: CreateWetchConfig) {
-    const factory = !config?.als ? WetchFactory.create() : new WetchFactory(config.als)
-    const wetch = factory.wetch()
+export function createWetch(configOrService?: CreateWetchConfig | WetchService): CreateWetch {
+    let config: CreateWetchConfig
+    if (configOrService instanceof WetchService) {
+        config = {
+            service: configOrService
+        }
+    } else {
+        config = configOrService ?? {}
+    }
+
+    const service = config?.service ?? CFWetchService.create()
+
+    const wetch: Wetch = typeof config?.wache === "undefined" ? async (init, info) => {
+        return await service.fetch(init, info)
+    } : async (info, init) => {
+        const cachedWetch = config.wache!(async (service: WetchService, info: RequestInfo, init?: RequestInit) => {
+            return new StoredResponse(await service.fetch(info, init))
+        })
+        return cachedWetch(service, info, init)
+    }
+    const revalidateUrl = async (url: string) => {
+        await service.revalidateResponse(url.endsWith("/") ? url : `${url}/`)
+    }
+
     return {
-        factory,
         wetch,
-        wache: factory.wache(),
-        run: (fn: () => Promise<void>) => {
-            return factory.run(fn)
-        },
-        etch: etch<E>(factory),
-        setFetcher: factory.setFetcher,
-        fetcher: {
-            fetch: wetch,
-            connect(): Socket {
-                throw new Error("UnImplemented")
-            }
-        } as Fetcher
+        revalidateUrl,
     }
 }

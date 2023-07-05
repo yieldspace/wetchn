@@ -57,6 +57,10 @@ class FunctionCacheLeaf {
         try {
             this.result = fn(...args)
             this.state = LeafState.Executed
+            // // This is monkey patch, so it should be removed
+            // if (this.result instanceof Response) {
+            //     this.result = new StoredResponse(this.result)
+            // }
             return this.result
         } catch (e) {
             this.error = e

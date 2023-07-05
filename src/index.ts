@@ -1,5 +1,4 @@
 export * from "./createWetch"
-export * from "./etch"
-export * from "./factory"
+export * from "./createWache"
 export * from "./response"
-export * from "./storage"
+export * from "./service"

@@ -7,6 +7,7 @@ export default defineConfig({
         // `wrangler.toml` files by default, but you can pass any additional Miniflare
         // API options here:
         environmentOptions: {
+            kvNamespaces: ["TEST_NAMESPACE", "TEST_NAMESPACE2"]
         },
         testTimeout: 100000
     },

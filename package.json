@@ -17,6 +17,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs.js"
+    },
+    "./wache": {
+      "types": "./dist/wache/index.d.ts",
+      "import": "./dist/wache/index.mjs",
+      "require": "./dist/wache/index.cjs.js"
+    },
+    "./wetch": {
+      "types": "./dist/wetch/index.d.ts",
+      "import": "./dist/wetch/index.mjs",
+      "require": "./dist/wetch/index.cjs.js"
     }
   },
   "repository": {
