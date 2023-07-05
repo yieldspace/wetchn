@@ -1,5 +1,11 @@
 # wetch
 
+## 0.2.0
+
+### Minor Changes
+
+- d97b80a: Re-designed createWetch and createWache
+
 ## 0.1.1
 
 ### Patch Changes
