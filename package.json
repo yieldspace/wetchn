@@ -1,6 +1,6 @@
 {
   "name": "wetchn",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Worker-Fetchication - A fetch library that behave like Next.js`s fetch for Cloudflare Workers.",
   "license": "MIT",
   "type": "module",
@@ -31,8 +31,12 @@
   },
   "typesVersions": {
     "*": {
-      "wache": ["./dist/wache/index.d.ts"],
-      "wetch": ["./dist/wetch/index.d.ts"]
+      "wache": [
+        "./dist/wache/index.d.ts"
+      ],
+      "wetch": [
+        "./dist/wetch/index.d.ts"
+      ]
     }
   },
   "repository": {

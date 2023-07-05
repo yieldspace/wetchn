@@ -1,5 +1,11 @@
 # wetch
 
+## 0.2.2
+
+### Patch Changes
+
+- efa738b: fix(package) add typesVersions
+
 ## 0.2.1
 
 ### Patch Changes
