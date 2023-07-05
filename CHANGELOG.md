@@ -1,5 +1,11 @@
 # wetch
 
+## 0.2.1
+
+### Patch Changes
+
+- b91342c: Improve readme and exports
+
 ## 0.2.0
 
 ### Minor Changes
